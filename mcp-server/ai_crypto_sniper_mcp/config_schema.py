@@ -27,6 +27,70 @@ RISK_LEVEL_NAMES = (
 )
 
 
+def assess_pulse_candidate(result: dict[str, Any], *,
+                           min_pulse_score: float = 50,
+                           max_creator_holdings_pct: float = 5) -> dict[str, Any]:
+    """Classify a Pulse match using completed on-chain safety evidence.
+
+    ``EXCELLENT`` means the token passed the bot's complete configured safety
+    funnel, its creator holding is known and below the dedicated Pulse ceiling,
+    and its trend score clears the alert threshold. It is deliberately a
+    candidate label rather than a promise or automatic-buy instruction.
+    """
+    pulse_score = float(result.get("pulse_score", 0) or 0)
+    creator_value = result.get("creator_holdings_pct")
+    try:
+        creator_pct = float(creator_value) if creator_value is not None else None
+    except (TypeError, ValueError):
+        creator_pct = None
+    rejection = str(result.get("safety_rejection", "") or "").strip()
+
+    if rejection:
+        return {
+            "candidate_rating": "REJECTED",
+            "excellent_candidate": False,
+            "candidate_reason": f"Failed safety check: {rejection.replace('_', ' ')}.",
+        }
+    if creator_pct is not None and creator_pct > max_creator_holdings_pct:
+        return {
+            "candidate_rating": "HIGH RISK",
+            "excellent_candidate": False,
+            "candidate_reason": (
+                f"Creator holds {creator_pct:.2f}% (Pulse maximum "
+                f"{max_creator_holdings_pct:.2f}%)."
+            ),
+        }
+    if result.get("safety_passed") is True:
+        if creator_pct is None:
+            return {
+                "candidate_rating": "REVIEW",
+                "excellent_candidate": False,
+                "candidate_reason": "Safety checks passed, but creator holdings are unavailable.",
+            }
+        if pulse_score >= min_pulse_score:
+            return {
+                "candidate_rating": "EXCELLENT",
+                "excellent_candidate": True,
+                "candidate_reason": (
+                    f"All configured safety checks passed; creator holds "
+                    f"{creator_pct:.2f}% and Pulse score is {pulse_score:.1f}."
+                ),
+            }
+        return {
+            "candidate_rating": "PASSED",
+            "excellent_candidate": False,
+            "candidate_reason": (
+                f"Safety checks passed; Pulse score {pulse_score:.1f} is below "
+                f"the excellent-alert threshold {min_pulse_score:.1f}."
+            ),
+        }
+    return {
+        "candidate_rating": "ANALYZING",
+        "excellent_candidate": False,
+        "candidate_reason": "Waiting for the bot's on-chain safety evaluation.",
+    }
+
+
 def _rule(kind: str, default: Any, description: str, *, minimum: float | None = None,
           maximum: float | None = None, choices: Iterable[Any] | None = None,
           restart: bool = True) -> dict[str, Any]:
@@ -75,7 +139,11 @@ CONFIG_RULES: dict[str, dict[str, Any]] = {
     "max_sell_retries": _rule("integer", 10, "Failed sell attempts before marking a position for manual review.", minimum=1, maximum=100),
     "auto_execute": _rule("boolean", True, "Allow the bot to execute approved strategy actions automatically."),
     "dry_run": _rule("boolean", True, "Simulate transactions without broadcasting them."),
-    "alert_sound": _rule("string", r"C:\Windows\Media\Ring10.wav", "Sound played before a live buy."),
+    "alert_sound": _rule("string", "sounds/buy.mp3", "Sound file played on buy/entry (WAV/MP3/AAC)."),
+    "sell_alert_sound": _rule("string", "sounds/sell.mp3", "Sound file played on sell/close (WAV/MP3/AAC)."),
+    "win_alert_sound": _rule("string", "sounds/win.mp3", "Sound file played 5s after a profitable close (WAV/MP3/AAC)."),
+    "loss_alert_sound": _rule("string", "sounds/loss.mp3", "Sound file played 5s after a losing close (WAV/MP3/AAC)."),
+    "use_sounds": _rule("boolean", True, "Master toggle for all Meme bot alert sounds."),
     "buy_pct_of_wallet": _rule("number", 10, "Percentage of available wallet SOL allocated to each entry.", minimum=1, maximum=100),
     "min_wallet_reserve_sol": _rule("number", 0.01, "SOL that must remain available for fees and recovery transactions.", minimum=0, maximum=100),
     "min_trade_size_sol": _rule("number", 0.005, "Reject entries smaller than this amount of SOL.", minimum=0, maximum=100),
@@ -112,6 +180,9 @@ CONFIG_RULES: dict[str, dict[str, Any]] = {
     "require_pulse_match": _rule("boolean", False, "Require the mint to match a current Pulse trend before entry."),
     "min_pulse_score": _rule("number", 35, "Minimum Pulse score when trend matching is required.", minimum=0, maximum=1000),
     "pulse_match_mode": _rule("string", "word", "Pulse name-matching mode.", choices=("exact", "word", "fuzzy")),
+    "pulse_excellent_alert_enabled": _rule("boolean", True, "Play and display an alert for Pulse matches rated EXCELLENT."),
+    "pulse_excellent_min_score": _rule("number", 50, "Minimum trend score for an EXCELLENT Pulse candidate.", minimum=0, maximum=1000),
+    "pulse_excellent_max_creator_holdings_pct": _rule("number", 5, "Maximum creator share allowed for an EXCELLENT Pulse candidate.", minimum=0, maximum=100),
     "max_buy_price_impact_pct": _rule("number", 3, "Maximum estimated entry price impact for Pump.fun buys; zero disables it.", minimum=0, maximum=100),
     "min_tx_velocity": _rule("integer", 5, "Minimum mint-related transactions during the buyer observation window.", minimum=0, maximum=1000),
     "max_deployer_token_count": _rule("integer", 3, "Maximum recent token creations attributed to the creator; zero disables it.", minimum=0, maximum=1000),
@@ -128,7 +199,9 @@ CONFIG_RULES: dict[str, dict[str, Any]] = {
 
 RESEARCHED_DEFAULT_PROFILE: dict[str, Any] = {
     key: rule["default"] for key, rule in CONFIG_RULES.items()
-    if key not in {"rpc_http_url", "rpc_ws_url", "alert_sound", "blacklist_mints",
+    if key not in {"rpc_http_url", "rpc_ws_url", "alert_sound", "sell_alert_sound",
+                   "win_alert_sound", "loss_alert_sound",
+                   "blacklist_mints",
                    "pumpportal_ws_url", "bitquery_ws_url", "bitquery_api_key"}
 }
 

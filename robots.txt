@@ -18,4 +18,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://solsniperbot.co/sitemap.xml
+Sitemap: https://aicryptosniper.com/sitemap.xml

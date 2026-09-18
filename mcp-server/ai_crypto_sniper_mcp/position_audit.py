@@ -46,7 +46,8 @@ def _pubkey_from_wallet(wallet_path: str) -> str:
 
 
 def _trading_pubkey(project_dir: str) -> str:
-    return _pubkey_from_wallet(os.path.join(project_dir, "wallet.json"))
+    """Return the Meme bot wallet owner (legacy helper name retained)."""
+    return _pubkey_from_wallet(os.path.join(project_dir, "meme_wallet.json"))
 
 
 def get_exit_quote(mint: str, raw_amount: int, slippage_bps: int) -> dict[str, Any]:
@@ -61,7 +62,7 @@ def get_exit_quote(mint: str, raw_amount: int, slippage_bps: int) -> dict[str, A
     })
     request = urllib.request.Request(
         f"{JUPITER_QUOTE_ENDPOINT}?{query}",
-        headers={"User-Agent": "solana-snipe-bot-mcp/1.1"},
+        headers={"User-Agent": "ai-crypto-sniper-mcp/5.0"},
     )
     with urllib.request.urlopen(request, timeout=15) as response:
         quote = json.loads(response.read().decode("utf-8"))
@@ -87,7 +88,7 @@ def get_token_price_usd(mint: str) -> float:
     query = urllib.parse.urlencode({"ids": mint})
     request = urllib.request.Request(
         f"{JUPITER_PRICE_ENDPOINT}?{query}",
-        headers={"User-Agent": "solana-snipe-bot-mcp/1.1", "Accept": "application/json"},
+        headers={"User-Agent": "ai-crypto-sniper-mcp/5.0", "Accept": "application/json"},
     )
     with urllib.request.urlopen(request, timeout=15) as response:
         result = json.loads(response.read().decode("utf-8"))
@@ -164,8 +165,11 @@ def get_wallet_summary(project_dir: str) -> dict[str, Any]:
         sol_price = 0.0
     result: dict[str, Any] = {}
     for label, filename in (
-        ("trading_wallet", "wallet.json"),
+        ("funding_wallet", "wallet.json"),
+        ("meme_wallet", "meme_wallet.json"),
         ("savings_wallet", "savings_wallet.json"),
+        ("perpetuals_wallet", "perp_wallet.json"),
+        ("spot_wallet", "spot_wallet.json"),
     ):
         try:
             pubkey = _pubkey_from_wallet(os.path.join(project_dir, filename))
@@ -194,9 +198,15 @@ def get_wallet_summary(project_dir: str) -> dict[str, Any]:
         "usd": round(position_sol * sol_price, 2),
         "count": position_count,
     }
+    # Keep the former key as a compatibility alias without counting it twice.
+    result["trading_wallet"] = dict(result.get("meme_wallet", {}))
+    result["trading_wallet"]["deprecated_alias_for"] = "meme_wallet"
     total_sol = (
-        float(result.get("trading_wallet", {}).get("sol", 0)) +
+        float(result.get("funding_wallet", {}).get("sol", 0)) +
+        float(result.get("meme_wallet", {}).get("sol", 0)) +
         float(result.get("savings_wallet", {}).get("sol", 0)) +
+        float(result.get("perpetuals_wallet", {}).get("sol", 0)) +
+        float(result.get("spot_wallet", {}).get("sol", 0)) +
         position_sol
     )
     result["total_cash_flow"] = {

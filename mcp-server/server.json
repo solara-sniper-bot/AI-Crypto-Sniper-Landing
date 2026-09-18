@@ -1,18 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.solara-sniper-bot/MCP",
-  "title": "Solana Sniper Bot MCP",
-  "description": "Autonomous Solana meme-coin sniper bot with 48 MCP tools for AI control, round-robin RPC pool, and multi-source launch detection.",
+  "name": "com.aicryptosniper/ai-crypto-sniper-mcp",
+  "title": "AI Crypto Sniper MCP",
+  "description": "AI-assisted Solana trading bot with 331 MCP tools across Meme, Spot, Perpetuals, and Mirror modes.",
   "repository": {
-    "url": "https://github.com/solara-sniper-bot/MCP",
+    "url": "https://github.com/solara-sniper-bot/AI-Crypto-Sniper-MCP",
     "source": "github"
   },
-  "version": "3.2.1",
+  "websiteUrl": "https://aicryptosniper.com/mcp/",
+  "version": "5.0.0",
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "solana-snipe-bot-mcp",
-      "version": "3.2.1",
+      "identifier": "ai-crypto-sniper-mcp",
+      "version": "5.0.0",
       "transport": {
         "type": "stdio"
       }

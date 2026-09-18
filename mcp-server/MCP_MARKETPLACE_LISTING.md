@@ -1,19 +1,19 @@
-# Solana Sniper Bot MCP — Marketplace Listing
+# AI Crypto Sniper MCP — Marketplace Listing
 
 **Version:** 1.1.0
 
 ## Download
 
-> **The MCP server is useless without the Solana Sniper Bot Windows application.**
+> **The MCP server is useless without the AI Crypto Sniper Windows application.**
 > The MCP exposes the bot's controls to your AI assistant, but the bot itself — the scanner, trader, and GUI — runs as a Windows desktop app. Install both.
 
 1. **Download the Windows app** from [https://solana-snipe-bot-landing.pages.dev/](https://solana-snipe-bot-landing.pages.dev/)
 2. **Install the MCP server** via pip:
    ```bash
-   pip install solana-snipe-bot-mcp
+   pip install ai-crypto-sniper-mcp
    ```
 3. **Or download from PyPI:**
-   https://pypi.org/project/solana-snipe-bot-mcp/
+   https://pypi.org/project/ai-crypto-sniper-mcp/
 
 ## One-liner
 
@@ -25,7 +25,7 @@ Control and audit an autonomous Solana meme-coin sniper bot with 40 MCP tools. B
 
 ## Description
 
-**Solana Sniper Bot MCP** exposes every control, setting, and data view from the Solana Sniper Bot as a Model Context Protocol server. The bot autonomously scans the Solana blockchain for new meme-coin launches (especially Pump.fun), applies configurable safety filters, executes buys and sells on Pump.fun bonding curves or Jupiter, and manages positions with take-profit ladders, trailing stops, and rug detection.
+**AI Crypto Sniper MCP** exposes every control, setting, and data view from the AI Crypto Sniper as a Model Context Protocol server. The bot autonomously scans the Solana blockchain for new meme-coin launches (especially Pump.fun), applies configurable safety filters, executes buys and sells on Pump.fun bonding curves or Jupiter, and manages positions with take-profit ladders, trailing stops, and rug detection.
 
 Your AI assistant gets 40 tools to:
 - Start/stop the bot and panic-sell
@@ -40,15 +40,15 @@ Using the MCP server tools, your agentic AI can analyze how market conditions ch
 ## Installation
 
 ```bash
-pip install solana-snipe-bot-mcp
+pip install ai-crypto-sniper-mcp
 ```
 
 Set the project directory before launching:
 
 ```bash
-export SOLANA_SNIPER_BOT_DIR=/path/to/snipe-bot   # macOS/Linux
-set SOLANA_SNIPER_BOT_DIR=P:\snipe-bot            # Windows
-python -m solana_snipe_bot_mcp
+export AI_CRYPTO_SNIPER_DIR=/path/to/snipe-bot   # macOS/Linux
+set AI_CRYPTO_SNIPER_DIR=P:\snipe-bot            # Windows
+python -m ai_crypto_sniper_mcp
 ```
 
 ## Client Config Examples
@@ -60,8 +60,8 @@ python -m solana_snipe_bot_mcp
   "mcpServers": {
     "solana-snipe-bot": {
       "command": "python",
-      "args": ["-m", "solana_snipe_bot_mcp"],
-      "env": { "SOLANA_SNIPER_BOT_DIR": "P:\\snipe-bot" }
+      "args": ["-m", "ai_crypto_sniper_mcp"],
+      "env": { "AI_CRYPTO_SNIPER_DIR": "P:\\snipe-bot" }
     }
   }
 }
@@ -74,8 +74,8 @@ python -m solana_snipe_bot_mcp
   "mcpServers": {
     "solana-snipe-bot": {
       "command": "python",
-      "args": ["-m", "solana_snipe_bot_mcp"],
-      "env": { "SOLANA_SNIPER_BOT_DIR": "P:\\snipe-bot" }
+      "args": ["-m", "ai_crypto_sniper_mcp"],
+      "env": { "AI_CRYPTO_SNIPER_DIR": "P:\\snipe-bot" }
     }
   }
 }
@@ -95,10 +95,10 @@ python -m solana_snipe_bot_mcp
 
 ## Links
 
-- **MCP Source Repo:** https://github.com/solara-sniper-bot/MCP
+- **MCP Source Repo:** https://github.com/solara-sniper-bot/AI-Crypto-Sniper-MCP
 - **Download App:** https://solana-snipe-bot-landing.pages.dev/
 - **Buy License ($99.99):** https://buy.stripe.com/3cI7sLc2l3Et1RU4IE7bW06
-- **PyPI:** https://pypi.org/project/solana-snipe-bot-mcp/
+- **PyPI:** https://pypi.org/project/ai-crypto-sniper-mcp/
 
 ## What's New in v1.1.0
 
@@ -116,4 +116,4 @@ See the full CHANGELOG.md for details.
 
 ## License
 
-Proprietary. All rights reserved. The Solana Sniper Bot Windows application requires a license — a generous full-week (168 hours) free trial is included, and a lifetime license is available for $99.99 at https://buy.stripe.com/3cI7sLc2l3Et1RU4IE7bW06
+Proprietary. All rights reserved. The AI Crypto Sniper Windows application requires a license — a generous full-week (168 hours) free trial is included, and a lifetime license is available for $99.99 at https://buy.stripe.com/3cI7sLc2l3Et1RU4IE7bW06

@@ -1,205 +1,41 @@
 <!-- mcp-name: com.aicryptosniper/ai-crypto-sniper-mcp -->
+# AI Crypto Sniper MCP
 
-<p align="center">
-  <img src="https://aicryptosniper.com/mcp/mcp-software-box.png" alt="AI Crypto Sniper MCP" width="500">
-</p>
+![AI Crypto Sniper MCP](https://aicryptosniper.com/mcp-software-box.png)
 
-<p align="center">
-  <strong>Autonomous Solana trading bot with 331 MCP tools across four trading modes — controlled by Claude, Cursor, Devin, or any MCP-compatible AI.</strong>
-</p>
+**Autonomous Solana trading bot with 331 MCP tools for AI-assisted control.**
 
-<p align="center">
-  <strong>Meme sniping · Spot trading · Perpetual futures · Mirror copy-trading · 168-hour free trial · No credit card required</strong>
-</p>
+Four trading modes. One Windows desktop app. Full MCP integration for Claude, Cursor, Devin, and any MCP-compatible AI assistant.
 
----
+## IMPORTANT: Requires the AI Crypto Sniper Windows Application
 
-## ⚠️ READ THIS FIRST — The MCP Is Useless Without the Windows App
+This MCP server is **useless on its own**. It requires the **AI Crypto Sniper V5** Windows GUI application to be installed and running.
 
-**This MCP server does absolutely nothing on its own.** It is a remote-control interface — a set of tools that lets your AI assistant talk to the **AI Crypto Sniper V5** Windows application. Without that application installed and running, every tool call returns empty data or an error.
+**Download the Windows executable from [aicryptosniper.com](https://aicryptosniper.com/download.html).**
 
-You need **both** pieces:
+## What It Does
 
-| Component | What it is | Required? |
-|---|---|---|
-| **AI Crypto Sniper V5** (Windows app) | The actual trading bot — scanner, executor, GUI, wallet management | **Yes — absolutely required** |
-| **ai-crypto-sniper-mcp** (this repo) | The MCP server that lets AI control the bot | Optional add-on |
+The AI Crypto Sniper watches the Solana blockchain for trading opportunities across four modes:
 
-### Download the Windows App
+1. **Meme / New-Token Sniping** — Pump.fun launch detection with safety/liquidity/market-cap/volume/holder/age/creator-holding filters, take-profit ladders, trailing stops, rug detection, volume-death detection, and momentum-reversal detection.
 
-> **Download:** [https://aicryptosniper.com/download.html](https://aicryptosniper.com/download.html)
+2. **Spot Trading** — Jupiter DEX aggregator integration with market/limit orders, DCA, portfolio rebalancing, risk-level presets, and slippage control.
 
----
-
-## Free Trial — A Full Week of Trading
-
-The AI Crypto Sniper comes with a **free 168-hour trial**: you get **168 hours** of actual bot running time — not calendar days, but real hours the bot is actively trading. That's an entire week of live sniping, position management, and P&L tracking to see if the bot works for you.
-
-**No credit card required to start.** Download the app, run it, and decide for yourself. When the trial expires, the Go Live button is disabled until you subscribe.
-
-## Pricing
-
-- **168-hour free trial** — 168 hours of actual bot running time (no credit card required)
-- **First month: $49.99** (50% off with promo code `SOLV4FIRST50`)
-- **$99.99/month** thereafter — Cancel anytime
-
-> **Subscribe:** [https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07](https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07?prefilled_promo_code=SOLV4FIRST50)
-
----
-
-## What Is This?
-
-**AI Crypto Sniper MCP** is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that gives AI assistants full control over AI Crypto Sniper V5. It exposes **331 tools** across four trading modes:
-
-1. **Meme / New-Token Sniping** — Detects new Pump.fun token launches, applies safety/liquidity/market-cap/volume/holder/age/creator-holding filters, executes buys through Pump.fun bonding curves or Jupiter, and manages positions with take-profit ladders, trailing stops, rug detection, volume-death detection, and momentum-reversal detection.
-
-2. **Spot Trading** — General spot trading via the Jupiter DEX aggregator with market/limit orders, DCA, portfolio rebalancing, risk-level presets, and slippage control.
-
-3. **Perpetual Futures** — Long and short positions with configurable leverage, margin trading, funding-rate controls, liquidation avoidance, market discovery, and signal generation.
+3. **Perpetual Futures** — Long/short with leverage, margin trading, funding-rate controls, liquidation avoidance, market discovery, and signal generation.
 
 4. **Mirror Mode** — Whale-wallet copy trading with proportional sizing, configurable limits, token filtering, and dry-run support.
 
-Using the 331 MCP tools, your AI agent can start/stop bots, execute trades, configure safety filters, query positions and P&L, manage wallets, analyze market data, and fine-tune strategy across all four trading modes.
+Using the 331 MCP tools, your AI agent can start/stop bots, execute trades, configure safety filters, query positions and P&L, manage wallets, analyze market data, fine-tune strategy across all four trading modes, control alert sounds, manage licenses, refresh markets, open in-app browser links, and more.
 
-> **Important:** The MCP server alone does nothing. It requires the **AI Crypto Sniper V5** Windows application to be installed and running. Download it from [https://aicryptosniper.com/download.html](https://aicryptosniper.com/download.html).
+## Pricing
 
-### How It Works
+- **MCP Server: 100% Free** — no trial, no subscription, no restrictions
+- **App: 168 hours of live bot usage** (full version, no restrictions, no credit card required)
+- **After trial: First month $49.99** (50% off with promo code `SOLV4FIRST50`)
+- **$99.99/month** thereafter
+- **Cancel anytime**
 
-```
-Your AI Assistant (Claude, Cursor, Devin, etc.)
-       │
-       │  talks MCP (stdio)
-       ▼
-  ai_crypto_sniper_mcp/server.py  ← runs on your machine
-       │
-       │  reads/writes JSON state files in your snipe-bot directory
-       ▼
-  AICryptoSniperV5.exe (required)  ← the Windows GUI / bot executable
-       │
-       ▼
-  Helius RPC Pool (up to 10 keys)  ← round-robin load-balanced RPC calls
-       │
-       ▼
-  Pump.fun bonding curve           ← direct buy/sell instructions
-  Jupiter Aggregator               ← graduated-token & spot swaps
-  Orderly Network (Raydium Perps)  ← perpetual futures routing
-```
-
-The MCP server runs as a separate process and communicates with the running bot through JSON command queues and state files. It reads configuration, positions, trade history, P&L tallies, wallet balances, and market data to give your AI assistant a complete, real-time view of the bot's state across all four trading modes.
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- **Windows 10/11**
-- **Python 3.10+**
-- **The AI Crypto Sniper V5 Windows application** — download from [https://aicryptosniper.com/download.html](https://aicryptosniper.com/download.html)
-- **A funded Solana wallet** (trading wallet + savings wallet keypairs)
-- **Helius RPC endpoint** with API key
-- An MCP-compatible AI assistant (Claude Desktop, Cursor, Devin, Codex, etc.)
-
-### Step 1 — Install the MCP Server
-
-From PyPI:
-
-```bash
-pip install ai-crypto-sniper-mcp
-```
-
-### Step 2 — Configure Your AI Assistant
-
-Set the project directory so the MCP server can find your bot's state files:
-
-```bash
-# Windows
-set AI_CRYPTO_SNIPER_DIR=P:\snipe-bot
-
-# Or on the command line when launching
-python -m ai_crypto_sniper_mcp
-```
-
-#### Claude Desktop
-
-Edit `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "solana-snipe-bot": {
-      "command": "python",
-      "args": ["-m", "ai_crypto_sniper_mcp"],
-      "env": {
-        "AI_CRYPTO_SNIPER_DIR": "P:\\snipe-bot"
-      }
-    }
-  }
-}
-```
-
-#### Cursor
-
-Edit `.cursor/mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "solana-snipe-bot": {
-      "command": "python",
-      "args": ["-m", "ai_crypto_sniper_mcp"],
-      "env": {
-        "AI_CRYPTO_SNIPER_DIR": "P:\\snipe-bot"
-      }
-    }
-  }
-}
-```
-
-#### Devin
-
-Add to `mcp_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "snipe-bot": {
-      "command": "python",
-      "args": ["-m", "ai_crypto_sniper_mcp"],
-      "env": {
-        "AI_CRYPTO_SNIPER_DIR": "P:\\snipe-bot"
-      }
-    }
-  }
-}
-```
-
-#### Claude Code
-
-```bash
-claude mcp add solana-snipe-bot -- python -m ai_crypto_sniper_mcp
-```
-
-#### Any MCP Client (generic)
-
-The server uses **stdio transport**. Launch it with:
-
-```bash
-set AI_CRYPTO_SNIPER_DIR=P:\snipe-bot
-python -m ai_crypto_sniper_mcp
-```
-
-### Step 3 — Start the Bot
-
-Ask your AI assistant:
-
-> "Start the Solana sniper bot"
-
-The assistant calls `start_bot`. Then try:
-
-> "What is my wallet balance and open positions?"
-
----
+Subscribe at: [https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07](https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07?prefilled_promo_code=SOLV4FIRST50)
 
 ## Tools (331)
 
@@ -641,61 +477,65 @@ The assistant calls `start_bot`. Then try:
 ### About & Info (1)
 - `get_about_info` — Get application version, MCP tool count, and about information.
 
----
+## Security and confirmations
 
-## Example Conversations with Your AI
+- The server uses local **stdio transport**. It does not open an HTTP or
+  WebSocket listener, so access is limited to processes that can launch it and
+  read the configured application directory.
+- The package requires `mcp>=1.29.0,<2.0.0`, which retains the FastMCP 1.x API
+  while excluding every vulnerable MCP version identified in the marketplace
+  review.
+- Live starts, purchases, sales, and position changes require an explicit
+  `confirm_live=true`. Panic liquidation and full-balance moves require
+  `confirm=true`.
+- Purchase tools accept only valid 32-byte Solana base58 mint addresses that
+  the application has observed in Pulse/market data or that the user explicitly
+  allowlisted. Perpetual orders accept only symbols in the fetched market list.
+- SOL transfers default to a 1 SOL per-transfer maximum, a 5 SOL UTC daily cap,
+  and confirmation at 0.25 SOL. USDC transfers default to $100 per transfer, a
+  $500 UTC daily cap, and confirmation at $25. Override these locally with
+  `AI_CRYPTO_SNIPER_MCP_MAX_TRANSFER_SOL`,
+  `AI_CRYPTO_SNIPER_MCP_DAILY_TRANSFER_CAP_SOL`,
+  `AI_CRYPTO_SNIPER_MCP_CONFIRM_TRANSFER_SOL`, and the corresponding `_USD`
+  variables.
+- For an additional local authorization boundary, set
+  `AI_CRYPTO_SNIPER_MCP_AUTH_TOKEN` in the MCP process environment. Sensitive
+  tools then require the same value in their `authorization_token` argument.
+- Command queues use atomic replacement plus a cross-process lock so concurrent
+  MCP calls cannot silently overwrite one another.
 
-> "Start the bot"
+## Installation
 
-→ `start_bot`
+```bash
+pip install ai-crypto-sniper-mcp
+```
 
-> "What are my open positions and what is the current P&L?"
+## Client Configuration
 
-→ `get_open_positions` + `get_positions_status`
+```json
+{
+  "mcpServers": {
+    "ai-crypto-sniper": {
+      "command": "python",
+      "args": ["-m", "ai_crypto_sniper_mcp"],
+      "env": {
+        "AI_CRYPTO_SNIPER_DIR": "/path/to/ai-crypto-sniper"
+      }
+    }
+  }
+}
+```
 
-> "Buy this mint: 6EF8rBh8gKQj6n5hX2P9Yq3wL4ZmN7vK8xT5fD1sQ2aR"
+## Links
 
-→ `buy_mint`
-
-> "Open a 3x long on SOL perps with $500"
-
-→ `open_perp_long`
-
-> "Add this whale wallet and start mirror mode"
-
-→ `add_mirror_whale` + `start_mirror_bot`
-
-> "What's my RSI on BONK?"
-
-→ `get_rsi`
-
-> "How much have I paid in fees and ATA rent?"
-
-→ `get_fee_summary`
-
-> "Show me the last 50 log lines"
-
-→ `get_log(50)`
-
----
-
-## Safety & Risk
-
-This is a live-trading tool. The included filters reduce but do not eliminate risk. Use only funds you can afford to lose. All MCP actions execute immediately with no confirmation unless the client itself asks for one.
-
----
-
-## License & Support
-
-**Proprietary.** All rights reserved. The AI Crypto Sniper V5 Windows application includes a 168-hour free trial (168 hours of actual bot running time). After the trial, a membership is required for live trading: $49.99 for the first month (50% off with code `SOLV4FIRST50`), then $99.99/month. Cancel anytime.
-
-- **Download the app:** [https://aicryptosniper.com/download.html](https://aicryptosniper.com/download.html)
+- **Website:** [https://aicryptosniper.com/](https://aicryptosniper.com/)
+- **Download:** [https://aicryptosniper.com/download.html](https://aicryptosniper.com/download.html)
+- **MCP Landing Page:** [https://aicryptosniper.com/mcp/](https://aicryptosniper.com/mcp/)
+- **PyPI:** [https://pypi.org/project/ai-crypto-sniper-mcp/](https://pypi.org/project/ai-crypto-sniper-mcp/)
+- **MCP Registry:** `com.aicryptosniper/ai-crypto-sniper-mcp`
+- **GitHub:** [https://github.com/solara-sniper-bot/AI-Crypto-Sniper-MCP](https://github.com/solara-sniper-bot/AI-Crypto-Sniper-MCP)
 - **Subscribe:** [https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07](https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07?prefilled_promo_code=SOLV4FIRST50)
 
----
+## License
 
-**MCP Source Repo:** https://github.com/solara-sniper-bot/AI-Crypto-Sniper-MCP  
-**PyPI:** https://pypi.org/project/ai-crypto-sniper-mcp/  
-**MCP Registry:** `com.aicryptosniper/ai-crypto-sniper-mcp`  
-**Download App:** https://aicryptosniper.com/download.html  
-**Subscribe:** https://buy.stripe.com/dRm14ngiB5MBfIK6QM7bW07?prefilled_promo_code=SOLV4FIRST50
+Proprietary. Membership required for live trading after the 168-hour trial. Use at your own risk. On-chain trading is risky.
